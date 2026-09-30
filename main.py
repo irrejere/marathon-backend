@@ -1,11 +1,13 @@
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
 from booth_router import router as booth_router
 
 app = FastAPI()
 
-# 프론트엔드의 로컬 개발 주소 허용
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -17,12 +19,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-@app.get("/")
-def read_root():
-    return {
-        "message": "마라톤 부스 소개 API 서버가 정상적으로 작동합니다!"
-    }
-
-
+# 부스 데이터 API 등록
 app.include_router(booth_router)
+
+# 프론트엔드 파일 경로
+FRONTEND_DIR = Path(__file__).parent / "frontend"
+
+# HTML, CSS, JavaScript, 이미지 파일 제공
+app.mount(
+    "/",
+    StaticFiles(directory=FRONTEND_DIR, html=True),
+    name="frontend",
+)
