@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>부스 API 테스트</title>
+</head>
+<body>
+    <h1>마라톤 부스 목록</h1>
+    <div id="booth-list">불러오는 중...</div>
+
+    <script>
+        async function loadBooths() {
+            const response = await fetch("http://127.0.0.1:8000/booths");
+            const booths = await response.json();
+
+            const boothList = document.getElementById("booth-list");
+            boothList.innerHTML = "";
+
+            booths.forEach(booth => {
+                const item = document.createElement("div");
+
+                item.innerHTML = `
+                    <h2>${booth.club_name}</h2>
+                    <p>부스명: ${booth.booth_name}</p>
+                    <p>${booth.description}</p>
+                    <hr>
+                `;
+
+                boothList.appendChild(item);
+            });
+        }
+
+        loadBooths();
+    </script>
+</body>
+</html>
