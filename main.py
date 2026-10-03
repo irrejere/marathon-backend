@@ -19,13 +19,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 부스 데이터 API 등록
+# 부스 API
 app.include_router(booth_router)
 
-# 프론트엔드 파일 경로
+# 프론트엔드 폴더 위치
 FRONTEND_DIR = Path(__file__).parent / "frontend"
 
-# HTML, CSS, JavaScript, 이미지 파일 제공
+# 프론트엔드 파일 제공
 app.mount(
     "/",
     StaticFiles(directory=FRONTEND_DIR, html=True),
