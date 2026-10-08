@@ -294,6 +294,8 @@
     .map-svg:focus-visible { outline: 4px solid #1d4ed8; outline-offset: -4px; }
     .map-svg.dragging { cursor: grabbing; }
 
+    .stage-tile { cursor: pointer; outline: none; }
+    .stage-tile:focus-visible rect { stroke: var(--focus); stroke-width: 4; }
     .zone { cursor: pointer; outline: none; transition: opacity 0.2s ease; }
     .zone-bg { stroke: rgba(0,0,0,0.12); stroke-width: 1; }
     .zone:focus-visible .zone-bg { stroke: #1d4ed8; stroke-width: 4; }
@@ -479,6 +481,7 @@
       text-align: center;
       color: var(--ink-2);
     }
+    .bib-no.glyph { font-size: 1.05rem; letter-spacing: -0.02em; word-break: keep-all; }
     .bib-name { display: block; font-size: 1.08rem; font-weight: 700; letter-spacing: -0.01em; }
     .bib-sub {
       display: -webkit-box;
@@ -549,6 +552,120 @@
       box-shadow: inset 0 0 0 1.5px var(--ink);
     }
     .staff-phone { margin-left: auto; font-size: 0.95rem; color: var(--ink-2); white-space: nowrap; font-weight: 600; }
+    .staff-duty { flex-basis: 100%; font-size: 0.85rem; line-height: 1.4; color: var(--ink-2); }
+    html[data-contrast="high"] .staff-duty { color: var(--ink); }
+    .more-contacts { margin-top: 0.4rem; }
+    .more-contacts summary {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 2.9rem;
+      padding: 0.5rem 0.8rem;
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 650;
+      color: var(--ink-2);
+      cursor: pointer;
+      list-style: none;
+    }
+    .more-contacts summary::-webkit-details-marker { display: none; }
+    .more-contacts summary::before { content: '+'; font-size: 1.15rem; line-height: 1; width: 1rem; text-align: center; }
+    .more-contacts[open] summary::before { content: '−'; }
+    .more-contacts[open] summary { margin-bottom: 0.4rem; }
+    html[data-contrast="high"] .more-contacts summary { border: 2px solid var(--ink); color: var(--ink); }
+
+    /* ── 무대 프로그램 / 코스 안내 버튼 ── */
+    .quick { padding-top: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .quick-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: 3.6rem;
+      padding: 0.55rem 0.9rem;
+      text-align: left;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-left: 0.3rem solid var(--grass);
+      border-radius: 10px;
+      color: var(--ink);
+    }
+    .quick-btn:active { background: var(--press); }
+    .quick-btn b { font-size: 1rem; font-weight: 750; }
+    .quick-btn span { font-size: 0.82rem; color: var(--ink-2); margin-top: 0.1rem; }
+    html[data-contrast="high"] .quick-btn { border: 2px solid var(--ink); border-left-width: 0.3rem; }
+    html[data-contrast="high"] .quick-btn span { color: var(--ink); }
+
+    /* ── 안내 패널 (무대 · 코스) ── */
+    dialog.panel {
+      position: fixed;
+      inset: auto 0 0 0;
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      max-height: 88dvh;
+      padding: 0;
+      border: 0;
+      border-top: 0.3rem solid var(--grass);
+      border-radius: 16px 16px 0 0;
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: 0 -8px 30px rgba(0,0,0,0.18);
+    }
+    dialog.panel[open] { display: flex; flex-direction: column; animation: panel-up 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+    dialog.panel::backdrop { background: var(--overlay); }
+    @keyframes panel-up { from { transform: translateY(40px); opacity: 0; } }
+    html[data-motion="reduce"] dialog.panel[open] { animation: none; }
+    @media (min-width: 760px) {
+      dialog.panel { inset: auto auto 0 50%; transform: translateX(-50%); width: 34rem; max-width: calc(100% - 2rem); }
+      @keyframes panel-up { from { transform: translate(-50%, 40px); opacity: 0; } }
+    }
+    .panel-head { display: flex; align-items: center; gap: 0.75rem; padding: 0.9rem 0.9rem 0.6rem 1.1rem; }
+    .panel-head h2 { flex: 1; font-size: 1.3rem; font-weight: 750; letter-spacing: -0.02em; }
+    .panel-body { overflow-y: auto; overscroll-behavior: contain; padding: 0 1.1rem calc(1.4rem + var(--safe-bottom)); }
+    .program + .program { margin-top: 1.4rem; }
+    .program h3 { display: flex; align-items: baseline; gap: 0.6rem; font-size: 1.05rem; font-weight: 750; margin-bottom: 0.5rem; }
+    .program h3 time { font-size: 0.9rem; font-weight: 650; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .steps { list-style: none; counter-reset: step; border-left: 2px solid var(--line); margin-left: 0.7rem; }
+    .steps > li {
+      counter-increment: step;
+      position: relative;
+      padding: 0.35rem 0 0.35rem 1.3rem;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .steps > li::before {
+      content: counter(step);
+      position: absolute;
+      left: -0.8rem;
+      top: 0.42rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 2px solid var(--grass);
+      font-size: 0.75rem;
+      font-weight: 750;
+      line-height: 1.2rem;
+      text-align: center;
+      color: var(--ink);
+    }
+    .steps .detail { list-style: none; margin-top: 0.3rem; font-size: 0.9rem; color: var(--ink-2); }
+    .steps .detail li { padding-left: 0.9rem; position: relative; }
+    .steps .detail li::before { content: '·'; position: absolute; left: 0.2rem; font-weight: 800; }
+    html[data-contrast="high"] .steps .detail { color: var(--ink); }
+    .course-list { list-style: none; display: grid; gap: 0.5rem; }
+    .course-list li { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.7rem 0.85rem; border: 1px solid var(--line); border-radius: 10px; }
+    .course-list .icon { font-size: 1.2rem; line-height: 1.4; flex-shrink: 0; }
+    .course-list b { display: block; font-weight: 700; }
+    .course-list span { font-size: 0.9rem; color: var(--ink-2); }
+    .panel-note { margin-top: 1rem; font-size: 0.92rem; line-height: 1.55; color: var(--ink-2); }
+    html[data-contrast="high"] .course-list li { border: 2px solid var(--ink); }
+    html[data-contrast="high"] .course-list span, html[data-contrast="high"] .panel-note { color: var(--ink); }
+    .booth-group + .booth-group { margin-top: 1.5rem; }
+    .booth-group h3 { font-size: 1rem; font-weight: 700; color: var(--ink-2); margin-bottom: 0.6rem; }
+    html[data-contrast="high"] .booth-group h3 { color: var(--ink); }
 
     .page-end { height: calc(2.5rem + var(--safe-bottom)); }
 
@@ -616,6 +733,7 @@
       min-width: 2.6rem;
       text-align: center;
     }
+    .sheet-no.glyph { font-size: 1.1rem; word-break: keep-all; }
     .sheet-title { flex: 1; min-width: 0; }
     .sheet-title h2 { font-size: 1.3rem; font-weight: 750; letter-spacing: -0.02em; line-height: 1.25; }
     .sheet-title p { font-size: 0.9rem; color: var(--ink-2); margin-top: 0.1rem; }
@@ -643,6 +761,12 @@
     .sheet-section { margin-bottom: 1.25rem; }
     .sheet-section h3 { font-size: 0.875rem; font-weight: 650; color: var(--ink-2); margin-bottom: 0.3rem; }
     .sheet-section p { font-size: 1.02rem; line-height: 1.65; white-space: pre-line; }
+    .rich > * + * { margin-top: 0.6rem; }
+    .rich ul { list-style: none; font-size: 1.02rem; line-height: 1.55; }
+    .rich li { position: relative; padding-left: 1rem; }
+    .rich li + li { margin-top: 0.35rem; }
+    .rich li::before { content: ''; position: absolute; left: 0.2rem; top: 0.7em; width: 0.35rem; height: 0.35rem; border-radius: 50%; background: var(--ink-2); }
+    html[data-contrast="high"] .rich li::before { background: var(--ink); }
 
     .mini-map {
       border-radius: 10px;
@@ -911,6 +1035,10 @@
     <section class="contact container" id="staffSection" aria-labelledby="staffTitle" hidden>
       <h2 id="staffTitle">문의/긴급상황</h2>
       <ul class="staff-list" id="staffList"></ul>
+      <details class="more-contacts" id="moreContacts" hidden>
+        <summary id="moreContactsLabel">분야별 연락처 더 보기</summary>
+        <ul class="staff-list" id="staffMore"></ul>
+      </details>
     </section>
 
     <!-- 화장실 -->
@@ -919,12 +1047,18 @@
       <div class="notice">
         <span class="notice-icon" aria-hidden="true">🚻</span>
         <ol class="notice-list">
-          <li><strong>무대와 응급 부스 사이</strong>로 나가서 트랙을 건너면 있어요.</li>
+          <li><strong>무대와 E(페이스메이커) 부스 사이</strong>로 나가서 START 옆으로 트랙을 건너면 있어요.</li>
           <li>거기가 붐비면 <strong>탈의실 쪽</strong>으로 조금 더 걸어가면 한 곳 더 있어요.</li>
           <li>지도에 파란색으로 표시돼 있어요.</li>
         </ol>
       </div>
     </section>
+
+    <!-- 무대 프로그램 / 코스 안내 -->
+    <nav class="quick container" aria-label="행사 안내">
+      <button class="quick-btn" id="stageBtn" aria-haspopup="dialog"><b>무대 프로그램</b><span>개회식 · 클로징 콘서트</span></button>
+      <button class="quick-btn" id="courseBtn" aria-haspopup="dialog"><b>코스 안내</b><span>치어링 · 급수대 · 반환점</span></button>
+    </nav>
 
     <!-- 지도 -->
     <section class="map-section container" aria-labelledby="mapTitle">
@@ -958,8 +1092,8 @@
 
     <!-- 부스 목록 -->
     <section class="section container" id="booths" tabindex="-1" aria-labelledby="boothsTitle" hidden>
-      <h2 id="boothsTitle">동아리 부스</h2>
-      <ul class="booth-grid" id="boothGrid"></ul>
+      <h2 id="boothsTitle">부스 목록</h2>
+      <div id="boothGroups"></div>
     </section>
 
     <div class="page-end"></div>
@@ -967,7 +1101,7 @@
 
   <!-- 상세 시트 -->
   <div class="overlay" id="overlay" aria-hidden="true"></div>
-  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetName" aria-describedby="sheetActivity">
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetName" aria-describedby="sheetDescription">
     <div class="sheet-grab" id="sheetGrab">
       <div class="sheet-handle" aria-hidden="true"></div>
       <div class="sheet-head">
@@ -981,20 +1115,20 @@
     </div>
 
     <div class="sheet-body" id="sheetBody">
-      <section class="sheet-section">
-        <h3>체험</h3>
-        <p id="sheetActivity"></p>
+      <section class="sheet-section" id="sheetActivitySection">
+        <h3>부스 활동</h3>
+        <div class="rich" id="sheetActivity"></div>
       </section>
       <section class="sheet-section">
         <h3>소개</h3>
-        <p id="sheetDescription"></p>
+        <div class="rich" id="sheetDescription"></div>
       </section>
       <section class="sheet-section" id="sheetMapSection">
         <h3>위치</h3>
         <div class="mini-map" id="miniMap" role="img"></div>
       </section>
       <section class="sheet-section" id="sheetContactSection">
-        <h3>연락처와 SNS</h3>
+        <h3>SNS</h3>
         <ul class="links" id="sheetLinks"></ul>
       </section>
       <nav class="sheet-nav" aria-label="다른 부스">
@@ -1004,8 +1138,78 @@
     </div>
   </div>
 
+  <!-- 무대 프로그램 -->
+  <dialog class="panel" id="stagePanel" aria-labelledby="stagePanelTitle">
+    <div class="panel-head">
+      <h2 id="stagePanelTitle">무대 프로그램</h2>
+      <button class="icon-btn" data-close aria-label="닫기">✕</button>
+    </div>
+    <div class="panel-body">
+      <section class="program" aria-labelledby="openingTitle">
+        <h3 id="openingTitle">개회식 <time>07:50 ~ 08:25</time></h3>
+        <ol class="steps">
+          <li>오프닝</li>
+          <li>주최단체 인사말 및 기부 증서 전달</li>
+          <li>외빈 축사</li>
+          <li>대학생 대표 축사</li>
+          <li>행사 일정 안내</li>
+          <li>스트레칭 진행</li>
+        </ol>
+      </section>
+      <section class="program" aria-labelledby="closingTitle">
+        <h3 id="closingTitle">클로징 콘서트 <time>09:28 ~ 10:30</time></h3>
+        <ol class="steps">
+          <li>오프닝</li>
+          <li>치어리딩 퍼포먼스팀 유니스 공연</li>
+          <li>싱어송라이터 변재환 공연</li>
+          <li>기획공연: 대학생 플래시몹 (드림하이 플래시몹)</li>
+          <li>시상식
+            <ul class="detail">
+              <li>첫 골인 남성 · 여성 러너</li>
+              <li>411번째로 골인한 러너 — 대한민국 임시정부 수립일(1919년 4월 11일)</li>
+              <li>81번째로 골인한 러너 — 광복 81주년</li>
+              <li>추첨 3명 — 부스 참여 스탬프 응모권 제출</li>
+            </ul>
+          </li>
+          <li>떼창 무대</li>
+        </ol>
+      </section>
+    </div>
+  </dialog>
+
+  <!-- 코스 안내 -->
+  <dialog class="panel" id="coursePanel" aria-labelledby="coursePanelTitle">
+    <div class="panel-head">
+      <h2 id="coursePanelTitle">코스 안내</h2>
+      <button class="icon-btn" data-close aria-label="닫기">✕</button>
+    </div>
+    <div class="panel-body">
+      <ul class="course-list">
+        <li><span class="icon" aria-hidden="true">📣</span><div><b>치어링 퍼포먼스</b></div></li>
+        <li><span class="icon" aria-hidden="true">💧</span><div><b>급수대</b></div></li>
+        <li><span class="icon" aria-hidden="true">↩️</span><div><b>반환점</b></div></li>
+      </ul>
+      <p class="panel-note">출발과 도착은 트랙 위 START예요. 코스 배치도와 치어링 위치는 정해지는 대로 여기에 올라와요.</p>
+    </div>
+  </dialog>
+
   <script>
+    // 데이터는 index.html 옆 site_data.json 을 직접 읽음 → frontend 폴더만 정적 호스팅해도 뜸.
+    // 그 파일이 없을 때만 백엔드 API(/booths, /staff)로 한 번 더 시도.
     const API_BASE = window.location.origin;
+    const siteData = (async () => {
+      const getJson = async (url) => {
+        const res = await fetch(url, { cache: 'no-cache' });
+        if (!res.ok) throw new Error(`${url} ${res.status}`);
+        return res.json();   // 호스팅이 없는 파일에 index.html 을 돌려주면 여기서 실패 → 다음 방법
+      };
+      try {
+        const d = await getJson('site_data.json');
+        if (Array.isArray(d.booths)) return { booths: d.booths, staff: d.staff || [] };
+      } catch (err) { console.warn('site_data.json 못 읽음, API 시도:', err); }
+      const [booths, staff] = await Promise.all([getJson(`${API_BASE}/booths`), getJson(`${API_BASE}/staff`).catch(() => [])]);
+      return { booths, staff };
+    })();
     const SVG_NS = 'http://www.w3.org/2000/svg';
     const $ = (id) => document.getElementById(id);
     const root = document.documentElement;
@@ -1095,8 +1299,18 @@
         svg.setAttribute('aria-label', '행사장 배치도');
         svg.setAttribute('aria-describedby', 'mapKeys');
         svg.setAttribute('tabindex', '0');
+        // 무대 칸은 눌러서 무대 프로그램 열기
+        const stage = svg.querySelector('#stage-tile');
+        if (stage) {
+          stage.removeAttribute('aria-hidden');
+          Object.entries({ role: 'button', tabindex: '0', 'aria-label': '무대 프로그램 보기', class: 'stage-tile' })
+            .forEach(([k, v]) => stage.setAttribute(k, v));
+        }
 
         const node = document.importNode(svg, true);
+        node.querySelector('#stage-tile')?.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); panels.open('stagePanel'); }
+        });
         const zoneLayer = document.createElementNS(SVG_NS, 'g');
         zoneLayer.id = 'zoneLayer';
         node.append(zoneLayer);
@@ -1257,15 +1471,25 @@
     }
 
     // 칸 하나에 들어갈 글자 크기·줄 나눔. 보기 설정 배율만큼 키우되 칸 안에 들어가는 만큼만
-    function layoutLabel(name, r) {
-      const chars = [...name], n = chars.length, k0 = textScale();
+    function layoutLabel(name, r, top = NO_SPACE) {
+      const k0 = textScale();
+      // 줄바꿈을 직접 정해 둔 이름(티셔츠\n꾸미기)은 그대로, 글자 크기만 맞춤
+      if (name.includes('\n')) {
+        const lines = name.split('\n');
+        const widest = Math.max(...lines.map(l => [...l].length));
+        for (let size = 15 * k0; size >= 8; size -= 0.25) {
+          if (widest * size <= r.w - 6 && lines.length * size * 1.15 <= r.h - top - 4) return { size, lines };
+        }
+        return { size: 8, lines };
+      }
+      const chars = [...name], n = chars.length;
       // 보통 크기에선 다섯 글자까지 한 줄 유지, 크게 볼 땐 줄을 더 허용
       const maxLines = k0 === 1 ? (n <= 5 ? 1 : 2) : (n <= 3 ? 1 : n <= 5 ? 2 : 3);
       for (let size = 15 * k0; size >= 9; size -= 0.25) {
         for (let k = 1; k <= maxLines; k++) {
           const lines = splitEven(chars, k);
           const widest = Math.max(...lines.map(l => [...l].length));
-          if (widest * size <= r.w - 6 && k * size * 1.15 <= r.h - NO_SPACE - 4) return { size, lines };
+          if (widest * size <= r.w - 6 && k * size * 1.15 <= r.h - top - 4) return { size, lines };
         }
       }
       return { size: 9, lines: [name] };
@@ -1299,24 +1523,27 @@
         const r = zoneRect(b);
         const color = b.color || '#cccccc';
         const ink = textOn(color);
-        const g = svgEl('g', { class: 'zone', 'data-id': b.id, tabindex: 0, role: 'button', 'aria-label': `${b.no}번 ${b.club_name} 부스` });
+        const g = svgEl('g', { class: 'zone', 'data-id': b.id, tabindex: 0, role: 'button', 'aria-label': `${b.no ? b.no + '번 ' : ''}${b.club_name}` });
 
         if (r.dot) {
           g.append(svgEl('circle', { class: 'zone-bg', cx: r.cx, cy: r.cy, r: 16, fill: color }));
           const n = svgEl('text', { x: r.cx, y: r.cy, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-size': 14, 'font-weight': 800, fill: ink });
           n.textContent = b.no;
           const t = svgEl('text', { x: r.cx, y: r.cy + 30, 'text-anchor': 'middle', 'font-size': (13 * textScale()).toFixed(1), 'font-weight': 700, fill: '#22251f' });
-          t.textContent = b.club_name;
+          t.textContent = b.label;
           g.append(n, t);
         } else {
           g.append(svgEl('rect', { class: 'zone-bg', x: r.x, y: r.y, width: r.w, height: r.h, rx: 6, fill: color }));
-          // 배번 — 왼쪽 위 작게
-          const no = svgEl('text', { x: r.x + 6, y: r.y + 12, 'font-size': (10.5 * Math.min(textScale(), 1.2)).toFixed(1), 'font-weight': 700, fill: ink, opacity: 0.7 });
-          no.textContent = b.no;
-          g.append(no);
-          const { size, lines } = layoutLabel(b.club_name, r);
+          // 배치도 번호 — 왼쪽 위 작게 (시설은 번호 없음)
+          const top = b.no ? NO_SPACE : 0;
+          if (b.no) {
+            const no = svgEl('text', { x: r.x + 6, y: r.y + 12, 'font-size': (10.5 * Math.min(textScale(), 1.2)).toFixed(1), 'font-weight': 700, fill: ink, opacity: 0.7 });
+            no.textContent = b.no;
+            g.append(no);
+          }
+          const { size, lines } = layoutLabel(b.label, r, top);
           const lh = size * 1.15;
-          const midY = r.y + NO_SPACE / 2 + r.h / 2;   // 번호 자리 빼고 가운데
+          const midY = r.y + top / 2 + r.h / 2;   // 번호 자리 빼고 가운데
           lines.forEach((line, i) => {
             const t = svgEl('text', {
               x: r.cx, y: midY - (lines.length - 1) * lh / 2 + i * lh,
@@ -1388,7 +1615,7 @@
         svg.setPointerCapture(e.pointerId);
         pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
         if (pts.size === 1) {
-          tap = { x: e.clientX, y: e.clientY, t: performance.now(), zone: e.target.closest('.zone'), moved: false };
+          tap = { x: e.clientX, y: e.clientY, t: performance.now(), zone: e.target.closest('.zone, #stage-tile'), moved: false };
           reanchorPan();
         } else if (pts.size === 2) {
           tap = null;
@@ -1436,7 +1663,10 @@
         if (e.type === 'pointerup' && pan && tap && tap.moved && !wasPinch) startGlide();
         pan = null;
         if (e.type === 'pointerup' && tap && !tap.moved && performance.now() - tap.t < 500) {
-          if (tap.zone) {
+          if (tap.zone && tap.zone.id === 'stage-tile') {
+            panels.open('stagePanel');
+            lastTap = null;
+          } else if (tap.zone) {
             openDetail(Number(tap.zone.dataset.id));
             lastTap = null;
           } else {
@@ -1497,35 +1727,54 @@
     // ════════════════════════════════════════════
     // 배번표 카드 목록
     // ════════════════════════════════════════════
+    const badge = (b) => b.no || (b.map_label || b.club_name).split('\n')[0];   // 번호 없는 시설은 짧은 이름
+    const subtitle = (b) => (b.booth_name && b.booth_name !== b.club_name) ? b.booth_name : '';
+
     function renderCards() {
-      const grid = $('boothGrid');
-      grid.replaceChildren();
-      for (const b of booths) {
-        const li = document.createElement('li');
-        const card = document.createElement('button');
-        card.className = 'bib';
-        card.style.setProperty('--c', b.color || '#cccccc');
-        card.setAttribute('aria-label', `${b.no}번 부스, ${b.club_name}. ${b.activity || ''}`);
+      const wrap = $('boothGroups');
+      wrap.replaceChildren();
+      const groups = [
+        ['참여 부스', booths.filter(b => b.group !== '시설')],
+        ['편의 · 운영 시설', booths.filter(b => b.group === '시설')],
+      ];
+      for (const [title, list] of groups) {
+        if (!list.length) continue;
+        const sec = document.createElement('section');
+        sec.className = 'booth-group';
+        const h = document.createElement('h3');
+        h.textContent = title;
+        const grid = document.createElement('ul');
+        grid.className = 'booth-grid';
+        for (const b of list) {
+          const li = document.createElement('li');
+          const card = document.createElement('button');
+          card.className = 'bib';
+          card.style.setProperty('--c', b.color || '#cccccc');
+          card.setAttribute('aria-label', `${b.no ? b.no + '번, ' : ''}${b.club_name}. ${subtitle(b)}`);
 
-        const no = document.createElement('span');
-        no.className = 'bib-no';
-        no.textContent = b.no;
-        no.setAttribute('aria-hidden', 'true');
+          const no = document.createElement('span');
+          no.className = 'bib-no';
+          no.textContent = badge(b);
+          if (!b.no) no.classList.add('glyph');
+          no.setAttribute('aria-hidden', 'true');
 
-        const body = document.createElement('span');
-        body.setAttribute('aria-hidden', 'true');
-        const name = document.createElement('span');
-        name.className = 'bib-name';
-        name.textContent = b.club_name;
-        const sub = document.createElement('span');
-        sub.className = 'bib-sub';
-        sub.textContent = b.activity || b.booth_name;
-        body.append(name, sub);
+          const body = document.createElement('span');
+          body.setAttribute('aria-hidden', 'true');
+          const name = document.createElement('span');
+          name.className = 'bib-name';
+          name.textContent = b.club_name;
+          const sub = document.createElement('span');
+          sub.className = 'bib-sub';
+          sub.textContent = subtitle(b) || b.description;
+          body.append(name, sub);
 
-        card.append(no, body);
-        card.addEventListener('click', () => openDetail(b.id));
-        li.append(card);
-        grid.append(li);
+          card.append(no, body);
+          card.addEventListener('click', () => openDetail(b.id));
+          li.append(card);
+          grid.append(li);
+        }
+        sec.append(h, grid);
+        wrap.append(sec);
       }
       $('booths').hidden = !booths.length;
     }
@@ -1568,7 +1817,7 @@
       box.replaceChildren();
       if (!map.svg || !b.location) { $('sheetMapSection').hidden = true; return; }
       $('sheetMapSection').hidden = false;
-      box.setAttribute('aria-label', `${b.club_name} 부스 위치: 동아리 부스 줄 왼쪽에서 ${b.no}번째`);
+      box.setAttribute('aria-label', `${b.club_name} 위치${b.no ? `: 배치도 ${b.no}번 칸` : ''}`);
       const clone = map.svg.cloneNode(true);
       clone.removeAttribute('class');
       clone.removeAttribute('tabindex');
@@ -1586,6 +1835,24 @@
       ['header', 'settings', 'main'].forEach(id => { $(id).inert = on; });
     }
 
+    // 소개 글: 빈 줄 = 문단, '· '로 시작하는 줄 = 목록
+    function renderRich(box, text) {
+      box.replaceChildren();
+      for (const block of text.split(/\n\s*\n/)) {
+        const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
+        if (!lines.length) continue;
+        if (lines.every(l => l.startsWith('· '))) {
+          const ul = document.createElement('ul');
+          for (const l of lines) { const li = document.createElement('li'); li.textContent = l.slice(2); ul.append(li); }
+          box.append(ul);
+        } else {
+          const para = document.createElement('p');
+          para.textContent = lines.join('\n');
+          box.append(para);
+        }
+      }
+    }
+
     function openDetail(id) {
       const idx = booths.findIndex(b => b.id === id);
       if (idx < 0) return;
@@ -1595,18 +1862,17 @@
       activeId = id;
 
       $('sheet').style.setProperty('--c', b.color || '#cccccc');
-      $('sheetNo').textContent = b.no;
+      $('sheetNo').textContent = badge(b);
+      $('sheetNo').classList.toggle('glyph', !b.no);
       $('sheetName').textContent = `${b.club_name}`;
-      $('sheetBooth').textContent = b.booth_name;
-      $('sheetActivity').textContent = b.activity;
-      $('sheetDescription').textContent = b.description;
+      $('sheetBooth').textContent = subtitle(b);
+      $('sheetBooth').hidden = !subtitle(b);
+      renderRich($('sheetActivity'), b.activity || '');
+      $('sheetActivitySection').hidden = !b.activity;
+      renderRich($('sheetDescription'), b.description);
 
       const links = $('sheetLinks');
       links.replaceChildren();
-      if (b.contact) {
-        const tel = b.contact.replace(/[^0-9+]/g, '');
-        links.append(makeLinkRow(`tel:${tel}`, '📞', b.contact, `전화 걸기 ${b.contact}`, false));
-      }
       const sns = b.sns || {};
       for (const [key, emoji, text] of [['instagram', '📷', '인스타그램'], ['youtube', '▶️', '유튜브'], ['website', '🌐', '웹사이트']]) {
         if (isSafeUrl(sns[key])) links.append(makeLinkRow(sns[key], emoji, text, `${b.club_name} ${text}, 새 창에서 열림`, true));
@@ -1710,43 +1976,93 @@
     // ════════════════════════════════════════════
     // 운영진 연락처
     // ════════════════════════════════════════════
+    function staffRow(person) {
+      const li = document.createElement('li');
+      const tel = (person.phone || '').replace(/[^0-9+]/g, '');
+      const row = document.createElement(tel ? 'a' : 'div');
+      row.className = 'staff-row';
+      if (tel) {
+        row.href = `tel:${tel}`;
+        row.setAttribute('aria-label', `${person.role} ${person.name}에게 전화 걸기, ${person.phone}${person.duty ? `. 담당: ${person.duty}` : ''}`);
+      }
+      const role = document.createElement('span');
+      role.className = 'staff-role';
+      role.textContent = person.role;
+      const name = document.createElement('span');
+      name.className = 'staff-name';
+      name.textContent = person.name;
+      row.append(role, name);
+      if (person.phone) {
+        const phone = document.createElement('span');
+        phone.className = 'staff-phone';
+        phone.textContent = person.phone;
+        row.append(phone);
+      }
+      if (person.duty) {
+        const duty = document.createElement('span');
+        duty.className = 'staff-duty';
+        duty.textContent = person.duty;
+        row.append(duty);
+      }
+      li.append(row);
+      return li;
+    }
+
     async function loadStaff() {
       try {
-        const res = await fetch(`${API_BASE}/staff`);
-        if (!res.ok) return;
-        const staff = await res.json();
+        const { staff } = await siteData;
         if (!staff.length) return;
-        const list = $('staffList');
-        for (const person of staff) {
-          const li = document.createElement('li');
-          const tel = (person.phone || '').replace(/[^0-9+]/g, '');
-          const row = document.createElement(tel ? 'a' : 'div');
-          row.className = 'staff-row';
-          if (tel) {
-            row.href = `tel:${tel}`;
-            row.setAttribute('aria-label', `${person.role} ${person.name}에게 전화 걸기, ${person.phone}`);
-          }
-          const role = document.createElement('span');
-          role.className = 'staff-role';
-          role.textContent = person.role;
-          const name = document.createElement('span');
-          name.className = 'staff-name';
-          name.textContent = person.name;
-          row.append(role, name);
-          if (person.phone) {
-            const phone = document.createElement('span');
-            phone.className = 'staff-phone';
-            phone.textContent = person.phone;
-            row.append(phone);
-          }
-          li.append(row);
-          list.append(li);
+        // featured 가 하나도 없으면 전부 바로 보여 줌
+        const anyFeatured = staff.some(p => p.featured);
+        const top = anyFeatured ? staff.filter(p => p.featured) : staff;
+        const rest = anyFeatured ? staff.filter(p => !p.featured) : [];
+        top.forEach(p => $('staffList').append(staffRow(p)));
+        rest.forEach(p => $('staffMore').append(staffRow(p)));
+        if (rest.length) {
+          $('moreContactsLabel').textContent = `분야별 연락처 ${rest.length}곳 더 보기`;
+          $('moreContacts').hidden = false;
         }
         $('staffSection').hidden = false;
       } catch (err) {
         console.error('운영진 연락처 로드 실패:', err);
       }
     }
+
+    // ════════════════════════════════════════════
+    // 안내 패널 (무대 프로그램 / 코스 안내)
+    // ════════════════════════════════════════════
+    const panels = (() => {
+      let opener = null, openedAt = 0;
+      const open = (id) => {
+        const d = $(id);
+        if (d.open) return;
+        if (activeId !== null) closeDetail();
+        opener = document.activeElement;
+        d.showModal();
+        openedAt = performance.now();
+        d.querySelector('.panel-body').scrollTop = 0;
+        history.pushState({ panel: id }, '');
+      };
+      const close = (d) => {
+        if (!d.open) return;
+        if (history.state && history.state.panel === d.id) history.back();
+        else d.close();
+      };
+      for (const d of document.querySelectorAll('dialog.panel')) {
+        d.querySelector('[data-close]').addEventListener('click', () => close(d));
+        // 바깥(어두운 곳) 누르면 닫기
+        d.addEventListener('click', e => { if (e.target === d && performance.now() - openedAt > 450) close(d); });
+        // Esc: 기본 동작 대신 기록까지 정리하며 닫기
+        d.addEventListener('cancel', e => { e.preventDefault(); close(d); });
+        d.addEventListener('close', () => { if (opener && document.contains(opener)) opener.focus({ preventScroll: true }); });
+      }
+      window.addEventListener('popstate', () => {
+        for (const d of document.querySelectorAll('dialog.panel[open]')) d.close();
+      });
+      return { open };
+    })();
+    $('stageBtn').addEventListener('click', () => panels.open('stagePanel'));
+    $('courseBtn').addEventListener('click', () => panels.open('coursePanel'));
 
     // ════════════════════════════════════════════
     // 이스터에그: 제목 5번 빠르게 탭 (또는 ?egg=marx). 새로고침하면 꺼짐
@@ -1817,15 +2133,14 @@
     // ════════════════════════════════════════════
     async function init() {
       loadStaff();
-      const [hasMap, res] = await Promise.all([loadMap(), fetch(`${API_BASE}/booths`).catch(() => null)]);
-      if (!res || !res.ok) {
+      const [hasMap, data] = await Promise.all([loadMap(), siteData.catch(err => { console.error('부스 정보 로드 실패:', err); return null; })]);
+      if (!data) {
         $('loading').textContent = '부스 정보를 불러오지 못했어요. 잠시 뒤 새로고침해 주세요.';
         return;
       }
-      booths = await res.json();
-      // 지도 왼쪽부터 번호 (배번)
-      booths.sort((a, b) => (a.location?.x ?? 999) - (b.location?.x ?? 999));
-      booths.forEach((b, i) => { b.no = i + 1; });
+      booths = data.booths;
+      // 순서는 site_data.json 순서 그대로 (배치도 번호 순). 지도 칸엔 짧은 이름
+      booths.forEach(b => { b.label = b.map_label || b.club_name; });
       renderCards();
       if (hasMap) {
         renderZones();
