@@ -655,6 +655,20 @@
     .steps .detail li { padding-left: 0.9rem; position: relative; }
     .steps .detail li::before { content: '·'; position: absolute; left: 0.2rem; font-weight: 800; }
     html[data-contrast="high"] .steps .detail { color: var(--ink); }
+    .course-map { position: relative; display: block; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+    .course-map img { display: block; width: 100%; height: auto; }
+    .course-map span {
+      position: absolute; right: 0.5rem; bottom: 0.5rem;
+      padding: 0.3rem 0.6rem; border-radius: 6px;
+      background: rgba(20,24,18,0.75); color: #fff; font-size: 0.8rem; font-weight: 650;
+    }
+    .course-facts { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-top: 0.8rem; }
+    .course-facts li { padding: 0.55rem 0.75rem; border: 1px solid var(--line); border-radius: 10px; }
+    .course-facts b { display: block; font-size: 0.82rem; font-weight: 650; color: var(--ink-2); }
+    .course-facts span { font-size: 0.98rem; font-weight: 650; }
+    html[data-contrast="high"] .course-facts li, html[data-contrast="high"] .course-map { border: 2px solid var(--ink); }
+    html[data-contrast="high"] .course-facts b { color: var(--ink); }
+    .panel-note + .program { margin-top: 1.2rem; }
     .course-list { list-style: none; display: grid; gap: 0.5rem; }
     .course-list li { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.7rem 0.85rem; border: 1px solid var(--line); border-radius: 10px; }
     .course-list .icon { font-size: 1.2rem; line-height: 1.4; flex-shrink: 0; }
@@ -1047,7 +1061,7 @@
       <div class="notice">
         <span class="notice-icon" aria-hidden="true">🚻</span>
         <ol class="notice-list">
-          <li><strong>무대와 E(페이스메이커) 부스 사이</strong>로 나가서 START 옆으로 트랙을 건너면 있어요.</li>
+          <li><strong>출발선(START) 왼쪽</strong>으로 트랙을 건너 쭉 내려가면 있어요.</li>
           <li>거기가 붐비면 <strong>탈의실 쪽</strong>으로 조금 더 걸어가면 한 곳 더 있어요.</li>
           <li>지도에 파란색으로 표시돼 있어요.</li>
         </ol>
@@ -1057,7 +1071,7 @@
     <!-- 무대 프로그램 / 코스 안내 -->
     <nav class="quick container" aria-label="행사 안내">
       <button class="quick-btn" id="stageBtn" aria-haspopup="dialog"><b>무대 프로그램</b><span>개회식 · 클로징 콘서트</span></button>
-      <button class="quick-btn" id="courseBtn" aria-haspopup="dialog"><b>코스 안내</b><span>치어링 · 급수대 · 반환점</span></button>
+      <button class="quick-btn" id="courseBtn" aria-haspopup="dialog"><b>코스 안내</b><span>코스도 · 치어링 · 급수대</span></button>
     </nav>
 
     <!-- 지도 -->
@@ -1184,12 +1198,29 @@
       <button class="icon-btn" data-close aria-label="닫기">✕</button>
     </div>
     <div class="panel-body">
-      <ul class="course-list">
-        <li><span class="icon" aria-hidden="true">📣</span><div><b>치어링 퍼포먼스</b></div></li>
-        <li><span class="icon" aria-hidden="true">💧</span><div><b>급수대</b></div></li>
-        <li><span class="icon" aria-hidden="true">↩️</span><div><b>반환점</b></div></li>
+      <a class="course-map" href="course.webp" target="_blank" rel="noopener" aria-label="2026 대학생런 코스도 크게 보기, 새 창에서 열림">
+        <img src="course.webp" width="612" height="815" loading="lazy"
+             alt="2026 대학생런 코스도. 안양천 축구장에서 출발해 북쪽으로 올라가 5km 반환점을 지나고, 남동쪽으로 이어져 10km 반환점까지 가는 코스. 치어링 지점 1번부터 6번, 급수대와 구급차 위치가 표시되어 있음.">
+        <span>눌러서 크게 보기</span>
+      </a>
+      <ul class="course-facts">
+        <li><b>출발 · 도착</b><span>안양천 축구장</span></li>
+        <li><b>반환점</b><span>5km, 10km</span></li>
+        <li><b>급수대</b><span>2.5km, 5km 지점</span></li>
+        <li><b>구급차</b><span>대회장 2 · 코스 2</span></li>
       </ul>
-      <p class="panel-note">출발과 도착은 트랙 위 START예요. 코스 배치도와 치어링 위치는 정해지는 대로 여기에 올라와요.</p>
+      <p class="panel-note">모든 구간이 자전거도로와 산책로예요.</p>
+      <section class="program" aria-labelledby="cheerTitle">
+        <h3 id="cheerTitle">코스 치어링</h3>
+        <ol class="steps">
+          <li>1910~20년대 독립운동</li>
+          <li>1930~40년대 독립운동 + 광복</li>
+          <li>러닝 응원 메시지</li>
+          <li>현재 청년들의 삶을 응원하는 메시지</li>
+          <li>어둠 속에서도 달리는 사람들을 응원하는 메시지</li>
+          <li>독립운동의 역사를 기억하고 우리가 이어 간다는 메시지</li>
+        </ol>
+      </section>
     </div>
   </dialog>
 
