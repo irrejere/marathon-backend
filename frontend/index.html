@@ -1179,13 +1179,13 @@
           <li>기획공연: 대학생 플래시몹 (드림하이 플래시몹)</li>
           <li>시상식
             <ul class="detail">
-              <li>첫 골인 남성 · 여성 러너</li>
+              <li>첫 골인 러너</li>
               <li>411번째로 골인한 러너 — 대한민국 임시정부 수립일(1919년 4월 11일)</li>
               <li>81번째로 골인한 러너 — 광복 81주년</li>
               <li>추첨 3명 — 부스 참여 스탬프 응모권 제출</li>
             </ul>
           </li>
-          <li>떼창 무대</li>
+          <li>마무리 퍼포먼스</li>
         </ol>
       </section>
     </div>
@@ -1267,6 +1267,7 @@
     }
 
     function syncSettingsUI() {
+      if (typeof equalizeBibs === 'function') requestAnimationFrame(equalizeBibs);
       document.querySelectorAll('#sizeButtons button').forEach(b =>
         b.setAttribute('aria-pressed', String(b.dataset.size === root.dataset.size)));
       document.querySelectorAll('#themeButtons button').forEach(b =>
@@ -1808,6 +1809,23 @@
         wrap.append(sec);
       }
       $('booths').hidden = !booths.length;
+      equalizeBibs();
+    }
+
+    // 부스 카드 크기 통일 — 가장 큰 카드 높이에 모두 맞춤 (화면 폭·글자 크기 바뀌면 다시)
+    function equalizeBibs() {
+      const cards = [...document.querySelectorAll('.bib')];
+      if (!cards.length) return;
+      cards.forEach(c => { c.style.minHeight = ''; });
+      const h = Math.max(...cards.map(c => c.offsetHeight));
+      cards.forEach(c => { c.style.minHeight = `${h}px`; });
+    }
+    {
+      let lastW = 0;
+      new ResizeObserver(([e]) => {
+        const w = Math.round(e.contentRect.width);
+        if (w !== lastW) { lastW = w; requestAnimationFrame(equalizeBibs); }
+      }).observe($('boothGroups'));
     }
 
     // ════════════════════════════════════════════
@@ -1900,7 +1918,8 @@
       $('sheetBooth').hidden = !subtitle(b);
       renderRich($('sheetActivity'), b.activity || '');
       $('sheetActivitySection').hidden = !b.activity;
-      renderRich($('sheetDescription'), b.description);
+      renderRich($('sheetDescription'), b.description || '');
+      $('sheetDescription').parentElement.hidden = !b.description;
 
       const links = $('sheetLinks');
       links.replaceChildren();

@@ -27,7 +27,7 @@
       "club_name": "독립유공자유지계승유족회",
       "map_label": "유족회",
       "booth_name": "",
-      "description": "독립유공자유지계승유족회가 지원해 주신 포카리스웨트를 나눠 드려요.",
+      "description": "",
       "activity": "",
       "sns": null,
       "location": {
@@ -591,14 +591,14 @@
       "name": "박태영",
       "phone": "010-5934-2732",
       "duty": "의료부스 / 코스 안전 요원",
-      "featured": true
+      "featured": false
     },
     {
       "role": "접근성",
       "name": "변아영",
       "phone": "010-5397-5615",
       "duty": "접근성 부스 / 휴식 공간",
-      "featured": true
+      "featured": false
     },
     {
       "role": "접수부스",
